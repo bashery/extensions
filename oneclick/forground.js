@@ -29,4 +29,7 @@ second.addEventListener('click', () => {
     console.log("messege is in storage")
 })
 
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    console.log(request.message)
+})
 
