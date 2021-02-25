@@ -1,6 +1,24 @@
-hello = (i,  name) => {
-	console.log(i, name + ' hell from background');
-}
-for (let i = 0; i< 4; i++ ) {
-	hello(i, "adams")
-}
+chrome.tabs.onActivated.addListener(tab => {
+	//console.log(tab);
+	chrome.tabs.get(tab.tabId, current_tab_info => {
+        if(/^https:\/\/www\.google/.test(current_tab_info.url)){
+	        chrome.tabs.executeScript(null, {file: "./forground.js"}, ()=> console.log("injecte a malware"))
+            chrome.tabs.insertCSS(null, {file: "./style.css"}, ()=> console.log("injecte css to "+current_tab_info.url))
+        };
+        if(/^https:\/\/www\.youtube/.test(current_tab_info.url)){
+	        chrome.tabs.executeScript(null, {file: "./forground.js"}, ()=> console.log("injecte a malware in "+current_tab_info.url))
+            //chrome.tabs.insertCSS(null, {file: "./style.css"}, ()=> console.log("injecte css to "+current_tab_info.url))
+        };
+	})
+});
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse)=> {
+
+    console.log("senderis "+ sender.tab.tabId)
+    if(request.message === "check the storage") {
+        sendResponse({message: "yo I get your cute message"})
+        chrome.storage.local.get("password", value => {
+            console.log(value)
+        })
+    } 
+})
