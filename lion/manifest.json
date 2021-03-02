@@ -1,5 +1,5 @@
 {
-    "name": "Geany",
+    "name": "Coins",
     "version": "0.0.1",
     "manifest_version":2,
     "content_scripts":[
@@ -9,7 +9,11 @@
         }
     ],
     "browser_action": {
-        "default_popup": "popup.html",
-        "default_title": "Geany"
-    }
+        "default_title": "Coins"
+   },
+   "background": {
+       "scripts": ["background.js"]
+   },
+   "permissions": ["tabs"]
 }
+

@@ -1,11 +1,18 @@
-//console.log("hello Geany plugin")
-//alert("hello world this is geany plugin")
-chrome.runtime.onMessage.addListener(function(request,  sender, sendResponse) {
-    //alert("reseved this : "+request)
-    const re = new RegExp('coin', 'gi')
-    const matches = document.documentElement.innerHTML.match(re)
-    console.log(matches.length)
+//chrome.runtime.onMessage.addListener(function(request,  sender, sendResponse) {
+    
+//    const re = new RegExp('coin', 'gi')
+//    const matches = document.documentElement.innerHTML.match(re)
+//    sendResponse({count: matches.length})
 
-    sendResponse({count: matches.length})
+//})
+
+const re = new RegExp('coin', 'gi')
+const matches = document.documentElement.innerHTML.match(re)
+
+
+chrome.runtime.sendMessage({
+    url: window.location.href,
+    count: matches.length
 })
+//    sendResponse({count: matches.length})
 
