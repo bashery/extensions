@@ -1,0 +1,20 @@
+{
+    "name":"Click",
+    "description": "multy task On one click ",
+    "version": "0.0.1",
+    "manifest_version":2,
+    "background": {
+        "scripts":["background.js"]
+    },
+    "options_page": "options.html",
+    "browser_action": {
+        "default_popup": "popup.html"
+    },
+    "permissions": [
+        "tabs",
+        "https://www.youtube.com/*",
+        "https://google.com/*",
+        "https://developer.chrome.com/*",
+        "https://www.w3schools.com/*"
+    ]
+}
