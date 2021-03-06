@@ -3,7 +3,6 @@
 	"description": "first extension",
 	"version": "0.0.1",
 	"manifest_version":2,
-	"icons": {"128":"./Robot.png"},
 	"background":{
 		"scripts":["./background.js"]
 	},
@@ -17,6 +16,8 @@
         "https://www.youtube.com/*",
         "https://www.binance.com/*",
         "https://www.trade.kucoin.com/*",
+        "https://www.w3schools.com/*",
+        "https://developer.chrome.com/*",
         "storage"
 	]
 
