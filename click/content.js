@@ -3,12 +3,17 @@ console.log("content injected riyht now into ", window.location.hostname)
 const seter = document.createElement('button')
 seter.innerText = 'set data'
 seter.id = 'seter'
-document.querySelector('body').appendChild(seter)
+document.querySelector('#topnav').appendChild(seter)
 
-
-const geter = document.createElement('button')
-geter.innerText = 'get data'
-geter.id = 'geter'
-document.querySelector('body').appendChild(geter)
-
+let price = 0
+seter.addEventListener('click', ()=> {
+    price ++
+    chrome.runtime.sendMessage({message:price}, (msg) => {console.log("msg form background is : ", msg)})
+    setTimeout(() => {  
+        seter.click()
+    }, 2000);
+})
+//chrome.runtime.onMessage.addListener((msg, sender, rep) => {
+  //  console.log(msg, sender)
+//})
 
