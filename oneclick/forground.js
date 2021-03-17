@@ -1,12 +1,6 @@
-/*
-//document.querySelector(".lnXdpd").classList.add('spin3')
-//document.querySelector(".style-scope ytd-topbar-logo-renderer").classList.add('spin3')
-*/
-
-console.log("hello from forground"+window.location)
 
 const first = document.createElement('button');
-first.innerText= 'set data';
+first.innerText = 'set data';
 first.id = "first";
 document.querySelector('body').appendChild(first)
 

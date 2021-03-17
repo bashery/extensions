@@ -1,6 +1,6 @@
 {
-    "name":"Click",
-    "description": "multy task On one click ",
+    "name":"comunicate tabs",
+    "description": "test comunicate bitween tabs",
     "version": "0.0.1",
     "manifest_version":2,
     "background": {
@@ -12,6 +12,6 @@
     },
     "permissions": [
         "tabs",
-        "https://www.binance.com/*"
+        "https://gowebexamples.com/*"
     ]
 }
