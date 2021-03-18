@@ -1,26 +1,26 @@
 
-console.log("content injected riyht now into ", window.location.href);
+let url = window.location.href 
+console.log("content injected riyht now into ", url);
 
-let price = document.querySelector('.showPrice')
-price.onclick = function() {
-    chrome.runtime.sendMessage({message:price.innerText}, (msg) => {
+let sleeptime = 1000
+let plus = 0
+if (url === "https://gowebexamples.com/http-server/") {
+    plus = 3
+}
+function send() {
+    chrome.runtime.sendMessage({message:Math.floor((Math.random() * 10))}, (msg) => {
          console.log("msg from background: ", msg)
     })
-    setTimeout(function(){
-        price.onclick()
-    }, 1000)
-}
-
-price.onclick()
     
-//chrome.runtime.onMessage.addListener((msg, sender, rep) => {
-  //  console.log(msg, sender)
-//})
-
-function sleep(milliseconds) {
-const date = Date.now();
-  let currentDate = null;
-  do {
-    currentDate = Date.now();
-  } while (currentDate - date < milliseconds);
+    setTimeout(function(){
+        send()
+    }, sleeptime+plus)
 }
+send()
+
+
+chrome.runtime.onMessage.addListener((msg, sender, resp) => {
+    console.log(msg.message)
+    resp("done from:") 
+})
+
