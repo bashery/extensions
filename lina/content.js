@@ -1,4 +1,10 @@
+
+let Btn = document.createElement('button')
+Btn.innerText = "run bot"
+document.querySelector('header').appendChild(Btn)
+
 console.log("injected")
+
 sleeptime = 1000
 plus = 0
 
@@ -8,18 +14,39 @@ if (window.location.href === "https://www.binance.com/en/trade/LINA_USDT?layout=
 
 
 let price = document.querySelector('.showPrice')
-price.onclick = function() {
-    chrome.runtime.sendMessage({message:price.innerText})
-    console.log(price.innerText)
+let prc = 0.0
+var bot = false
 
-    // TODO number(a.replace(",", ""))
-    
-    setTimeout(function(){
-        price.onclick()
-    }, sleeptime+plus)
+price.onclick = function() {
+    if (bot) {
+
+        prc = parseFloat(price.innerText.replace(",", ""))
+        console.log(prc)
+        chrome.runtime.sendMessage({message:prc})
+
+        setTimeout(function(){
+            price.onclick()
+        }, sleeptime+plus)
+    }
 }  
  
-price.onclick()
+Btn.onclick = function() {
+    if (!bot) {
+        bot = true
+        Btn.innerText = "Stop"
+        price.onclick()
+        console.log("bot on")
+    } else {
+        bot = false 
+        Btn.innerText = "Start"
+        console.log("bot off")
+    }
+}
+
+
+
+
+
 
 
 chrome.runtime.onMessage.addListener((msg, sender, resp) => {

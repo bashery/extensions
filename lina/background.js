@@ -1,4 +1,3 @@
-
 let basicUrl = "https://www.binance.com/en/trade/LINA_USDT?layout=basic"
 let fututerUrl = "https://www.binance.com/en/futures/LINAUSDT_perpetual" 
 
@@ -44,6 +43,8 @@ chrome.tabs.query({active: false, currentWindow: true}, function(tabs) {
 
 var spotMsg  = 0
 var futureMsg = 0
+var deal = "no"
+var start = "nothing"
 
 chrome.runtime.onMessage.addListener(function(msg, sender, response) {
 
@@ -57,32 +58,38 @@ chrome.runtime.onMessage.addListener(function(msg, sender, response) {
     }
 
     // order to by or sell if prices is much
-    if (futureMsg === spotMsg) {
-        //
-        // TODO number(a.replace(",", ""))
-        //
-        //response("sell or buy"+serverMsg+" "+helloMsg)
-        console.log( "spot: ", spotMsg, "futureMsg: ", futureMsg)
+
+    if ((futureMsg/1000)*3 > futureMsg-spotMsg && deal !== "opened" && start === "start") {
+        deal = "opened"
+        
+        console.log( "OCASIO, spot: ", spotMsg, "futureMsg: ", futureMsg)
+        alert ("فرصة دخول ")
+        const greeting = new Notification('فرصة دخول '+spotMsg+"  "+futureMsg);
+        setTimeout(function() {greeting.close()}, 1000*10)
         
         // send message to all tabs we work with
         for (let i = 0; i< mytabs.length; i++ ) {
-            chrome.tabs.sendMessage(mytabs[i], {message: "buy or sell : "+futureMsg+" "+spotMsg}, function(response) {
+            chrome.tabs.sendMessage(mytabs[i], {message: "buy and sull"+futureMsg+" "+spotMsg}, function(response) {
                 //console.log(response) // done
             });
         }
         
     }
 
-    // no order if on price maths
-    if (spotMsg !== futureMsg) {
-        console.log("nomutch")
+    // no order if ocasion:
+    if (spotMsg >= futureMsg && deal === "opened") {
         for (let i = 0; i< mytabs.length; i++ ) {
-            chrome.tabs.sendMessage(mytabs[i], {message: "no match"}, function(response) {
+            chrome.tabs.sendMessage(mytabs[i], {message: "no ocasion"}, function(response) {
+                deal = "done"
                 //console.log(response) // done
             });
         }
+        const greeting = new Notification('وقت الإغلاق'+spotMsg+"  "+futureMsg);
+        setTimeout(function() {greeting.close()}, 1000*10)
+        console.log("deal closed")
     }
-    response("nomutch")
-    // no price match
-    //response("do no doing anything")
+    response("no ocasion")
+    console.log("nothing")
 })
+
+
