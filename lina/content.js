@@ -1,10 +1,3 @@
-
-let Btn = document.createElement('button')
-Btn.innerText = "run bot"
-document.querySelector('header').appendChild(Btn)
-
-console.log("injected")
-
 sleeptime = 1000
 plus = 0
 
@@ -18,7 +11,6 @@ let prc = 0.0
 var bot = false
 
 price.onclick = function() {
-    if (bot) {
 
         prc = parseFloat(price.innerText.replace(",", ""))
         console.log(prc)
@@ -27,23 +19,9 @@ price.onclick = function() {
         setTimeout(function(){
             price.onclick()
         }, sleeptime+plus)
-    }
 }  
  
-Btn.onclick = function() {
-    if (!bot) {
-        bot = true
-        Btn.innerText = "Stop"
-        price.onclick()
-        console.log("bot on")
-    } else {
-        bot = false 
-        Btn.innerText = "Start"
-        console.log("bot off")
-    }
-}
-
-
+price.onclick()
 
 
 
