@@ -1,7 +1,7 @@
 sleeptime = 1000
 plus = 0
 
-if (window.location.href === "https://www.binance.com/en/trade/LINA_USDT?layout=basic") {
+if (!window.location.href.endsWith("perpetual")) {
     plus = 3
 }
 
