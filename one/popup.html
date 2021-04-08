@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset=utf8>
+        <meta name=viewoirt content="width=device-width, initial-scale=1.0">
+        <title>click bot</title>
+        
+    </head>
+<body>
+
+<h2>Lina usdt</h2>
+<script>
+
+
+let Btn = document.createElement('button')
+Btn.innerText = "run bot"
+document.querySelector('header').appendChild(Btn)
+
+console.log("injected")
+
+Btn.onclick = function() {
+    if (!bot) {
+        bot = true
+        Btn.innerText = "Stop"
+        console.log("bot on")
+    } else {
+        bot = false 
+        Btn.innerText = "Start"
+        console.log("bot off")
+    }
+}
+
+
+
+</script>
+</body>
+</html>
+
+
