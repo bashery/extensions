@@ -61,14 +61,12 @@ chrome.runtime.onMessage.addListener(function(msg, sender, response) {
     // order to by or sell if prices is much
     if ((futureMsg/1000) * 5 <= futureMsg-spotMsg && deal !== "opened" && start === "start") { // TODO i not sure her > or < ??
         deal = "opened"
-        
-        console.log( "OCASIO, spot: ", spotMsg, "futureMsg: ", futureMsg)
-        //alert ("فرصة دخول ")
+        console.log( "OCASIO, open at : spot:", spotMsg, "future:", futureMsg)
         
         // send message to all tabs we work with
         for (let i = 0; i< mytabs.length; i++ ) {
-            chrome.tabs.sendMessage(mytabs[i], {message: "buy and sull"+futureMsg+" "+spotMsg}, function(response) {
-                console.log(response) // done
+            chrome.tabs.sendMessage(mytabs[i], {message: "buy and sull"+futureMsg+" "+spotMsg}, function(/* response */) {
+                //console.log(response) // done
             });
         }
         
@@ -77,12 +75,12 @@ chrome.runtime.onMessage.addListener(function(msg, sender, response) {
     // close and earn deal order if ocasion:
     if (spotMsg >= futureMsg && deal === "opened") {
         for (let i = 0; i< mytabs.length; i++ ) {
-            chrome.tabs.sendMessage(mytabs[i], {message: "close deal"}, function(response) {
-                console.log(response) // done
+            chrome.tabs.sendMessage(mytabs[i], {message: "close deal"}, function(/* response */) {
+                //console.log(response) // done
             });
         }
         deal = "done"
-        console.log("deal closed at", spotMsg, futureMsg)
+        console.log("closed at: spot:", spotMsg, "future :", futureMsg)
     }
 
 /*
