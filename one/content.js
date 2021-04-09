@@ -35,15 +35,3 @@ chrome.runtime.onMessage.addListener((msg, sender, resp) => {
 
 
 
-function send() {
-    let randomNum = Math.floor((Math.random() * 10))
-    //chrome.runtime.sendMessage({message:randomNum}, () => {})
-    chrome.runtime.sendMessage({message:randomNum})
-    
-    setTimeout(function(){
-        send()
-    }, sleeptime+plus)
-}
-//send()
-
-

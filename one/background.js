@@ -4,21 +4,22 @@ let fututerUrl = "https://www.binance.com/en/futures/"+coin+"USDT_perpetual"
 
 let basic = basicUrl
 let fut = fututerUrl
-
+let ready = false
 
 chrome.tabs.onActivated.addListener(tab => {
     chrome.tabs.get( tab.tabId, tabInfo => {
 
         if ( basic === tabInfo.url) {
-            console.log("inject into ", tabInfo.url)
             chrome.tabs.executeScript(null, {file:"./content.js"}, console.log("inject content.js into ", tabInfo.url))
             basic = "ok"
         }
     
         if (fut === tabInfo.url) {
-            console.log("inject into ", tabInfo.url)
             chrome.tabs.executeScript(null, {file:"./content.js"}, console.log("inject content.js into ", tabInfo.url))
-            fut = "ok fuet"
+            fut = "ok"
+        }
+        if ((basic === "ok") && (fut === "ok")) {
+            ready = true
         }
     })
 })
@@ -45,9 +46,17 @@ chrome.tabs.query({active: false, currentWindow: true}, function(tabs) {
 var spotMsg  = 0
 var futureMsg = 0
 var deal = "no"
-var start = "nothing"
+var start = false
+var on = false
 
 chrome.runtime.onMessage.addListener(function(msg, sender, response) {
+    
+
+    if (start  && ready) {
+        on = true
+    } else {
+        on = false
+    }
 
     // get price from spicify tap
     if (sender.url === fututerUrl) {
@@ -59,7 +68,7 @@ chrome.runtime.onMessage.addListener(function(msg, sender, response) {
     }
 
     // order to by or sell if prices is much
-    if ((futureMsg/1000) * 5 <= futureMsg-spotMsg && deal !== "opened" && start === "start") { // TODO i not sure her > or < ??
+    if ((futureMsg/1000) * 5 <= futureMsg-spotMsg && deal !== "opened" && on) { // TODO i not sure her > or < ??
         deal = "opened"
         console.log( "OCASIO, open at : spot:", spotMsg, "future:", futureMsg)
         
@@ -96,7 +105,11 @@ chrome.runtime.onMessage.addListener(function(msg, sender, response) {
     }
 */
     response("no ocasion")
-    console.log("nothing")
+    if (deal === "opened" ) {
+        console.log("deal is open")
+    } else {
+        console.log("not yet")
+    }
 })
 
 

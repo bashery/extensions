@@ -9,26 +9,33 @@
 <body>
 
 <h2>Lina usdt</h2>
+<button id=start>  تشغيل  </button>
+<button id=stop> إيقاف </button>
+<h3>البوت متوقف</h3>
 <script>
 
 
-let Btn = document.createElement('button')
-Btn.innerText = "run bot"
-document.querySelector('header').appendChild(Btn)
+let btn = document.querySelector('start')
+//let btn = document.querySelector('start')
+btn.innerText = " تشغيل "
+let b = document.querySelector(".css-1rj0lsg")
 
-console.log("injected")
 
-Btn.onclick = function() {
-    if (!bot) {
-        bot = true
-        Btn.innerText = "Stop"
-        console.log("bot on")
+btn.onclick = function() {
+
+    if (start !== "start") {
+        btn.innerText = " إيقاف "
+        start = "start"
+        console.log("bot started")
+        chrome.runtime.sendMessage({startMsg:start}, function(resp) {    console.log(resp)    })
     } else {
-        bot = false 
-        Btn.innerText = "Start"
-        console.log("bot off")
-    }
+        start = "stop" 
+        btn.innerText = " تشغيل "
+        console.log("bot started")
+        chrome.runtime.sendMessage({startMsg:start}, function(resp) {    console.log(resp)    })
+    } 
 }
+
 
 
 
