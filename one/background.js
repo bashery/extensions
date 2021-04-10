@@ -50,8 +50,15 @@ var start = false
 var on = false
 
 chrome.runtime.onMessage.addListener(function(msg, sender, response) {
+    if (msg.startMsg === true) {
+        //console.log("starting bot", msg.startMsg)
+        start = true
+    }
+    if (msg.startMsg === false) {
+        //console.log("stoping bot", msg.startMsg)
+        start = false
+    }
     
-
     if (start  && ready) {
         on = true
     } else {
@@ -85,6 +92,7 @@ chrome.runtime.onMessage.addListener(function(msg, sender, response) {
     if (spotMsg >= futureMsg && deal === "opened") {
         for (let i = 0; i< mytabs.length; i++ ) {
             chrome.tabs.sendMessage(mytabs[i], {message: "close deal"}, function(/* response */) {
+
                 //console.log(response) // done
             });
         }
@@ -108,7 +116,7 @@ chrome.runtime.onMessage.addListener(function(msg, sender, response) {
     if (deal === "opened" ) {
         console.log("deal is open")
     } else {
-        console.log("not yet")
+        //console.log("not yet")
     }
 })
 
