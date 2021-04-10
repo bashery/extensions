@@ -4,7 +4,6 @@ let fututerUrl = "https://www.binance.com/en/futures/"+coin+"USDT_perpetual"
 
 let basic = basicUrl
 let fut = fututerUrl
-let ready = false
 
 chrome.tabs.onActivated.addListener(tab => {
     chrome.tabs.get( tab.tabId, tabInfo => {
@@ -17,9 +16,6 @@ chrome.tabs.onActivated.addListener(tab => {
         if (fut === tabInfo.url) {
             chrome.tabs.executeScript(null, {file:"./content.js"}, console.log("inject content.js into ", tabInfo.url))
             fut = "ok"
-        }
-        if ((basic === "ok") && (fut === "ok")) {
-            ready = true
         }
     })
 })
@@ -42,29 +38,30 @@ chrome.tabs.query({active: false, currentWindow: true}, function(tabs) {
 
 });
 
-
+let defPrice = 5 
 var spotMsg  = 0
 var futureMsg = 0
-var deal = "no"
-var start = false
 var on = false
+var start = 0
+var deal = "no"
 
 chrome.runtime.onMessage.addListener(function(msg, sender, response) {
-    if (msg.startMsg === true) {
-        //console.log("starting bot", msg.startMsg)
-        start = true
-    }
-    if (msg.startMsg === false) {
-        //console.log("stoping bot", msg.startMsg)
-        start = false
+    
+    if (msg.startMsg) {
+        console.log("starting bot", msg.startMsg)
+        start++ 
+    } else if (msg.startMsg === false){
+        console.log("stoping bot", msg.startMsg)
+        start--
     }
     
-    if (start  && ready) {
+
+    if (start === 2) {
         on = true
     } else {
         on = false
     }
-
+    
     // get price from spicify tap
     if (sender.url === fututerUrl) {
         futureMsg = msg.message
@@ -75,15 +72,14 @@ chrome.runtime.onMessage.addListener(function(msg, sender, response) {
     }
 
     // order to by or sell if prices is much
-    if ((futureMsg/1000) * 5 <= futureMsg-spotMsg && deal !== "opened" && on) { // TODO i not sure her > or < ??
+    if ((futureMsg/1000) * defPrice <= futureMsg-spotMsg && deal !== "opened" && on) { // TODO i not sure her > or < ??
         deal = "opened"
         console.log( "OCASIO, open at : spot:", spotMsg, "future:", futureMsg)
         
         // send message to all tabs we work with
         for (let i = 0; i< mytabs.length; i++ ) {
-            chrome.tabs.sendMessage(mytabs[i], {message: "buy and sull"+futureMsg+" "+spotMsg}, function(/* response */) {
-                //console.log(response) // done
-            });
+            // TODO handle responde calback
+            chrome.tabs.sendMessage(mytabs[i], {message: "buy and sull"+futureMsg+" "+spotMsg} /*, function(response ) {} */);
         }
         
     }
@@ -91,33 +87,21 @@ chrome.runtime.onMessage.addListener(function(msg, sender, response) {
     // close and earn deal order if ocasion:
     if (spotMsg >= futureMsg && deal === "opened") {
         for (let i = 0; i< mytabs.length; i++ ) {
-            chrome.tabs.sendMessage(mytabs[i], {message: "close deal"}, function(/* response */) {
-
-                //console.log(response) // done
-            });
+            // TODO handle responde calback
+            chrome.tabs.sendMessage(mytabs[i], {message: "close deal"} /* , function(response) { console.log(response) }*/);
         }
+        
         deal = "done"
         console.log("closed at: spot:", spotMsg, "future :", futureMsg)
     }
-
-/*
-    // wait intial spotMsg >= futureMsg:
-    if (spotMsg < futureMsg && deal === "opened") {
-        for (let i = 0; i< mytabs.length; i++ ) {
-            chrome.tabs.sendMessage(mytabs[i], {message: "wait"}, function(response) {
-
-                //console.log(response) // done
-            });
-        }
-        //console.log("deal closed")
-    }
-*/
-    response("no ocasion")
-    if (deal === "opened" ) {
-        console.log("deal is open")
+    
+    if (deal === "opened") {
+        console.log("opened")    
     } else {
-        //console.log("not yet")
+        console.log("not yet")    
     }
+
+    response("no ocasion")
 })
 
 

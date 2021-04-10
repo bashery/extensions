@@ -22,7 +22,7 @@ btn.onclick = function() {
 
 
 
-sleeptime = 400 
+sleeptime = 100 
 plus = 0
 
 if (!window.location.href.endsWith("perpetual")) {
@@ -32,16 +32,20 @@ if (!window.location.href.endsWith("perpetual")) {
 let price = document.querySelector('.showPrice')
 let prc = 0.0
 var bot = false
-
+let inc = 0
 price.onclick = function() {
+    inc ++
 
         prc = parseFloat(price.innerText.replace(",", ""))
-        console.log(prc)
         chrome.runtime.sendMessage({message:prc})
 
-        setTimeout(function(){
-            price.onclick()
-        }, sleeptime+plus)
+    if (inc === 10) {
+        console.log(prc)
+        inc = 0
+    }
+    setTimeout(function(){
+       price.onclick()
+    }, sleeptime+plus)
 }  
  
 price.onclick()
@@ -51,17 +55,17 @@ price.onclick()
 
 
 chrome.runtime.onMessage.addListener((msg, sender, resp) => {
-    console.log()
-    if (msg.message.startWith('buy')) {
+    console.log(msg.message)
+    //if (msg.message.startWith('buy')) {
        // document.querySelector('#orderformBuyBtn').click()
-    }
+    //}
     
-    if (msg.message.startWith('close')) {
+    //if (msg.message.startWith('close')) {
         //document.querySelector('#orderformSellBtn').click()
 
-    }
+    //}
     
-    resp("done") 
+    //resp("done") 
 })
 
 
