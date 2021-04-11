@@ -56,15 +56,24 @@ price.onclick()
 
 chrome.runtime.onMessage.addListener((msg, sender, resp) => {
     console.log(msg.message)
-    //if (msg.message.startWith('buy')) {
-       // document.querySelector('#orderformBuyBtn').click()
-    //}
-    
-    //if (msg.message.startWith('close')) {
-        //document.querySelector('#orderformSellBtn').click()
+    /*
+    if (msg.message === "open deal") {
+        if (window.location.href.endsWith('perpetual')) {
+            document.querySelector('button.css-y7ysid').click()
+        } else {
+            
+        }
 
-    //}
-    
+        document.querySelector('#orderformBuyBtn').click()
+    }
+     
+    if (msg.message === "close deal") {
+        if (window.location.href.endsWith('perpetual')) {
+        if (window.location.href.endsWith('basic')) {
+        document.querySelector('#orderformSellBtn').click()
+
+    }
+    */
     resp("done") 
 })
 

@@ -79,7 +79,7 @@ chrome.runtime.onMessage.addListener(function(msg, sender, response) {
         // send message to all tabs we work with
         for (let i = 0; i< mytabs.length; i++ ) {
             // TODO handle responde calback
-            chrome.tabs.sendMessage(mytabs[i], {message: "buy and sull"+futureMsg+" "+spotMsg},  function(response ) {
+            chrome.tabs.sendMessage(mytabs[i], {message: "open deal"},  function(response ) {
                 console.log(response) // done
             } );
 
