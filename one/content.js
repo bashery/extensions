@@ -65,7 +65,7 @@ chrome.runtime.onMessage.addListener((msg, sender, resp) => {
 
     //}
     
-    //resp("done") 
+    resp("done") 
 })
 
 
