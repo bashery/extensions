@@ -1,6 +1,5 @@
-let coin = "ONE"
-let basicUrl = "https://www.binance.com/en/trade/"+coin+"_USDT?layout=basic"
-let fututerUrl = "https://www.binance.com/en/futures/"+coin+"USDT_perpetual" 
+let basicUrl = "https://www.binance.com/en/trade/ONE_USDT?layout=basic"
+let fututerUrl = "https://www.binance.com/en/futures/ONEUSDT_perpetual" 
 
 let basic = basicUrl
 let fut = fututerUrl
