@@ -1,7 +1,7 @@
 // control buttons
 
 let btn = document.createElement('button')
-//let btn = document.querySelector('start')
+
 btn.innerText = " تشغيل "
 document.querySelector('header').appendChild(btn)
 
@@ -56,24 +56,34 @@ price.onclick()
 
 chrome.runtime.onMessage.addListener((msg, sender, resp) => {
     console.log(msg.message)
-    /*
+    
+
     if (msg.message === "open deal") {
         if (window.location.href.endsWith('perpetual')) {
+            // sell in futuer marcket
             document.querySelector('button.css-y7ysid').click()
-        } else {
-            
         }
 
-        document.querySelector('#orderformBuyBtn').click()
+        if (window.location.href.endsWith('basic')) {
+            // buy in spot marcket
+            document.querySelector('#orderformBuyBtn').click()
+        }
+
     }
      
     if (msg.message === "close deal") {
         if (window.location.href.endsWith('perpetual')) {
-        if (window.location.href.endsWith('basic')) {
-        document.querySelector('#orderformSellBtn').click()
+            // buy in futuer marcket
+            document.querySelector('button.css-1ftari0').click()
+        } 
+        if (window.location.href.endsWith('basic')){
+            // sell
+            document.querySelector('#orderformSellBtn').click()
+        }
 
     }
-    */
+    
+
     resp("done") 
 })
 
