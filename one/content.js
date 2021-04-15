@@ -64,7 +64,7 @@ chrome.runtime.onMessage.addListener((msg, sender, resp) => {
             document.querySelector('button.css-y7ysid').click()
         }
 
-        if (window.location.href.endsWith('basic')) {
+        if (!window.location.href.endsWith('perpetual')) {
             // buy in spot marcket
             document.querySelector('#orderformBuyBtn').click()
         }
