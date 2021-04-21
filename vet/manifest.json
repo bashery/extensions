@@ -1,0 +1,20 @@
+{
+    "name":"VET",
+    "description": "VET boot",
+    "version": "0.0.1",
+    "manifest_version":2,
+    "background": {
+        "scripts":["background.js"]
+    },
+    "options_page": "options.html",
+    "browser_action": {
+        "default_popup": "popup.html"
+    },
+    "content_security_policy": "script-src 'self' 'sha256-PX8gQCwmg0dhOcd1407JbmRKqKI/J8YQfiAdbCf7ug4='; object-src 'self'",
+    "permissions": [
+        "tabs",
+        "https://www.binance.com/en/futures/VETUSDT_perpetual",
+        "https://www.binance.com/en/trade/VET_USDT?layout=basic"
+    ]
+
+}

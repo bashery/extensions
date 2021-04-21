@@ -74,14 +74,13 @@ chrome.runtime.onMessage.addListener((msg, sender, resp) => {
             total.value = msg.asset
             console.log("opening deal with: ", msg.asset )
 
-            // select marcket option
-            btnMarcket = document.querySelector('#__APP > div > div > div > div.css-e4zj7m > div.css-s4sfla > div:nth-child(1) > div.css-na6azx > span.css-191wvd7')
+            // marcket is a button to sell
+            btnMarcket = document.querySelector('#__APP > div > div > div > div.css-e4zj7m > div.css-s4sfla > div:nth-child(1) > div.css-na6azx > span.css-191wvd7').click()
             btnMarcket.click()
 
             // open deal by sell order
-            let btnSell = document.querySelector('#__APP > div > div > div > div.css-e4zj7m > div.css-s4sfla > div:nth-child(1) > form > div.css-f4auaq > button.css-15rehdy')
-
-            btnSell.click()
+            let btnBuy = document.querySelector('#__APP > div > div > div > div.css-e4zj7m > div.css-s4sfla > div:nth-child(1) > form > div.css-f4auaq > button.css-15rehdy')
+            btnBuy.click()
 
             //document.querySelector('button.css-y7ysid').click()
             // TODO procidure all contract staps
@@ -111,7 +110,7 @@ chrome.runtime.onMessage.addListener((msg, sender, resp) => {
         
 
         if (!window.location.href.endsWith('perpetual')){
-            // select marcket
+            // sell
             let marcket = document.querySelector('#__APP > div > div > div.css-e4zj7m > div > div.css-1cjqw9n > div.css-17gt9am > div.css-vurnku > div:nth-child(1) > div > div.css-8smnea > span.css-191wvd7')
             marcket.click()
             
