@@ -37,7 +37,7 @@ var bot = false
 price.onclick = function() {
 
     //inc ++
-    prc = parseFloat(price.innerText.replace(",", ""))
+    prc = parseFloat(price.innerText) //  replace(",", "")) updated
     if (window.location.href.endsWith("perpetual")) {
         asset = document.querySelector('#__APP > div > div > div > div.css-e4zj7m > div.css-s4sfla > div:nth-child(1) > div.css-s9gj39 > div.css-w8rmc6 > span').innerText
     } else {
@@ -74,14 +74,16 @@ chrome.runtime.onMessage.addListener((msg, sender, resp) => {
             total.value = msg.asset
             console.log("opening deal with: ", msg.asset )
 
-            // select marcket option
-            btnMarcket = document.querySelector('#__APP > div > div > div > div.css-e4zj7m > div.css-s4sfla > div:nth-child(1) > div.css-na6azx > span.css-191wvd7')
-            btnMarcket.click()
+            
+            // select marcket pricw option
+            //btnMarcketPrice = document.querySelector('#__APP > div > div > div > div.css-e4zj7m > div.css-s4sfla > div:nth-child(1) > div.css-na6azx > span.css-191wvd7')
+            //btnMarcketPrice.click()
 
             // open deal by sell order
             let btnSell = document.querySelector('#__APP > div > div > div > div.css-e4zj7m > div.css-s4sfla > div:nth-child(1) > form > div.css-f4auaq > button.css-15rehdy')
 
             btnSell.click()
+            resp("opening deal with: "+msg.asset )
 
             //document.querySelector('button.css-y7ysid').click()
             // TODO procidure all contract staps
@@ -93,9 +95,21 @@ chrome.runtime.onMessage.addListener((msg, sender, resp) => {
             total.value = msg.asset
             console.log("opening deal with: ", msg.asset )
 
-            let marcket = document.querySelector('#__APP > div > div > div.css-e4zj7m > div > div.css-1cjqw9n > div.css-17gt9am > div.css-vurnku > div:nth-child(1) > div > div.css-8smnea > span.css-191wvd7')
-            marcket.click()
+            // TODO make select marcket price automatic. fix this problem
+            //let marcket = document.querySelector('#__APP > div > div > div.css-e4zj7m > div > div.css-1cjqw9n > div.css-17gt9am > div.css-vurnku > div:nth-child(1) > div > div.css-8smnea > span.css-191wvd7')
+            //marcket.click()
             //document.querySelector('#orderformBuyBtn').click()
+            
+            let sellSide = document.querySelector('#__APP > div > div > div.css-e4zj7m > div > div.css-1cjqw9n > div.css-17gt9am > div.css-cfem3r > span.tab-item.css-181qoj4')
+            sellSide.click()
+            
+            let buyBtn = document.querySelector('#orderformBuyBtn')
+            buyBtn.click()
+
+           // TODO handle any error with callback 
+            resp("done") 
+
+
         }
 
     }
@@ -104,29 +118,51 @@ chrome.runtime.onMessage.addListener((msg, sender, resp) => {
         if (window.location.href.endsWith('perpetual')) {
             // close in futuer marcket (buy)
             let closeFutur = document.querySelector('#__APP > div > div > div > div.react-grid-layout.layout > div:nth-child(2) > div > div > div > div.css-im6ko3 > div > div > div > div > div.list-container.css-wr25is > div.list-auto-sizer > div > div > div > div > div.closePosition > div > button')
+            
             closeFutur.click()
             console.log("perpetual deal is closed")
+            resp("close perpetual deal")
 
         } 
         
 
         if (!window.location.href.endsWith('perpetual')){
-            // select marcket
-            let marcket = document.querySelector('#__APP > div > div > div.css-e4zj7m > div > div.css-1cjqw9n > div.css-17gt9am > div.css-vurnku > div:nth-child(1) > div > div.css-8smnea > span.css-191wvd7')
-            marcket.click()
+            
+            // select sell side setting
+            let sellSide = document.querySelector('#__APP > div > div > div.css-e4zj7m > div > div.css-1cjqw9n > div.css-17gt9am > div.css-cfem3r > span.tab-item.css-181qoj4')
+            sellSide.click()
+
+
+            // select marcket price option
+            //let marcket = document.querySelector('#__APP > div > div > div.css-e4zj7m > div > div.css-1cjqw9n > div.css-17gt9am > div.css-vurnku > div:nth-child(1) > div > div.css-8smnea > span.css-191wvd7')
+            //marcket.click()
+
             
             // definde asset to to sell them
-            let assetElement = document.querySelector('#__APP > div > div > div.css-e4zj7m > div > div.css-1cjqw9n > div.css-17gt9am > div.css-vurnku > div:nth-child(2) > div > div.css-yvo0m7 > span')
+            let assetElement = document.querySelector('#__APP > div > div > div.css-e4zj7m > div > div > div.css-17gt9am > div.css-vurnku > div:nth-child(2) > div > div.css-yvo0m7 > span')
             sellAsset = parseFloat(assetElement.innerText)
 
+            
             // fill ammont element by size of asset thit need sell
             let ammontElement = document.querySelector('#FormRow-SELL-quantity')
-            ammontElement.value = sellAsset
+            
+
+            // definde fix foot withowt around function:
+            function floorFigure(figure, decimals){
+                if (!decimals) decimals = 2;
+                var d = Math.pow(10,decimals);
+                return (parseInt(figure*d)/d).toFixed(decimals);
+            };
+
+            ammontElement.value = floorFigure(sellAsset, 1)
             
             // click sell button
             let sellBtn = document.querySelector('#orderformSellBtn')
             sellBtn.click()
             console.log("spot deal is closed")
+            
+            // TODO respons result done or failure to for handling errors
+            resp("done")
 
         }
     }

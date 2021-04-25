@@ -1,17 +1,20 @@
 
 let defPrice =  5
 let basicUrl = "https://www.binance.com/en/trade/ONE_USDT?layout=basic"
+let basicUrl2 = "https://www.binance.com/en/trade/ONE_USDT?layout=basic&type=spot"
 let fututerUrl = "https://www.binance.com/en/futures/ONEUSDT_perpetual" 
 
 let basic = basicUrl
+let basic2 = basicUrl2
 let fut = fututerUrl
 
 chrome.tabs.onActivated.addListener(tab => {
     chrome.tabs.get( tab.tabId, tabInfo => {
 
-        if ( basic === tabInfo.url) {
+        if ( basic === tabInfo.url || basic2 === tabInfo.url) {
             chrome.tabs.executeScript(null, {file:"./content.js"}, console.log("inject content.js into ", tabInfo.url))
             basic = "ok"
+            basic2 = "ok"
         }
     
         if (fut === tabInfo.url) {
@@ -77,7 +80,7 @@ chrome.runtime.onMessage.addListener(function(msg, sender, response) {
         futureMsg = msg.message
     }
     
-    if (sender.url === basicUrl) {
+    if (sender.url === basicUrl || sender.url === basicUrl2) {
         spotMsg = msg.message
     }
 
@@ -105,8 +108,8 @@ chrome.runtime.onMessage.addListener(function(msg, sender, response) {
         // TODO parse and send assets
         for (let i = 0; i< mytabs.length; i++ ) {
             // TODO handle responde calback
-            chrome.tabs.sendMessage(mytabs[i], {message: "close"}, function(/*response*/) { 
-                console.log(/*response*/) 
+            chrome.tabs.sendMessage(mytabs[i], {message: "close"}, function(response) { 
+                console.log(response) 
             });
         }
         
